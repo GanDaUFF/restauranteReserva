@@ -1,0 +1,25 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Reserva {
+  id              Int       @id @default(autoincrement())
+  dataHora        DateTime
+  numeroMesa      Int
+  quantidade      Int
+  nomeResponsavel String
+  status          StatusReserva
+  confirmadoPor   String? // nome do garçom
+  criadoEm        DateTime @default(now())
+}
+
+enum StatusReserva {
+  PENDENTE
+  CANCELADA
+  CONFIRMADA
+}
