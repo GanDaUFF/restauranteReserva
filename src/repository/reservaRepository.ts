@@ -16,6 +16,20 @@ export const listarTodasReservas = async () => {
       },
     });
   };
+
+  export const deletarReservaPorId = async (id: number) => {
+    return await prisma.reserva.delete({
+      where: { id },
+    });
+  };
+
+  export const atualizarReservaPorId = async (id: number, dadosAtualizados: any) => {
+    return await prisma.reserva.update({
+      where: { id },
+      data: dadosAtualizados,
+    });
+  };
+
   
 export const criarNovaReserva = async (
   dataHora: Date,
