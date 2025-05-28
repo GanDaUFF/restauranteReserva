@@ -1,4 +1,4 @@
-import { listarTodasReservas } from '../repository/reservaRepository';
+import { listarTodasReservas } from '../../repository/reservaRepository';
 
 
 export const listarReservasService = async () => {

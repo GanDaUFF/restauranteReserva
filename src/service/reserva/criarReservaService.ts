@@ -1,4 +1,4 @@
-import { criarNovaReserva, encontrarReservaExistente } from '../repository/reservaRepository';
+import { criarNovaReserva, encontrarReservaExistente } from '../../repository/reservaRepository';
 
 export const criarReservaService = async (
   dataHora: string,

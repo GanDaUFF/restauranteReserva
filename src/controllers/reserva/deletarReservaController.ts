@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { deletarReservaService } from '../service/deletarReservaService';
+import { deletarReservaService } from '../../service/reserva/deletarReservaService';
 
 export const deletarReserva = async (req: Request, res: Response) => {
   const { id } = req.params;

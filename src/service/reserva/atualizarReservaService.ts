@@ -1,4 +1,4 @@
-import { atualizarReservaPorId } from '../repository/reservaRepository';
+import { atualizarReservaPorId } from '../../repository/reservaRepository';
 
 export const atualizarReservaService = async (id: number, dados: any) => {
   const atualizacao = {

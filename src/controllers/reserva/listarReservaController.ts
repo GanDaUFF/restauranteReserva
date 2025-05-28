@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { listarReservasService } from '../service/listarReservaService';
+import { listarReservasService } from '../../service/reserva/listarReservaService';
 
 export const listarReservas = async (_req: Request, res: Response) => {
   try {

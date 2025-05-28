@@ -7,7 +7,24 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Reserva {
+
+model Usuario {
+  id        Int       @id @default(autoincrement())
+  nome      String
+  email     String    @unique
+  senha     String
+  tipo      TipoUsuario
+  criadoEm  DateTime  @default(now())
+}
+
+enum TipoUsuario {
+  GERENTE
+  FUNCIONARIO
+  CLIENTE
+}
+
+                                                                                                                                   
+ model Reserva {
   id              Int       @id @default(autoincrement())
   dataHora        DateTime
   numeroMesa      Int

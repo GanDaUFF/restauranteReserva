@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { criarReservaService } from '../service/criarReservaService';
+import { criarReservaService } from '../../service/reserva/criarReservaService';
 
 export const criarReserva = async (req: Request, res: Response) => {
     const { dataHora, numeroMesa, quantidade, nomeResponsavel } = req.body;
