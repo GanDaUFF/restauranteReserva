@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/breadcrumb"
 import { ReservationsTable } from "@/components/reservations-table"
 
-export function Dashboard() {
+export default function Dashboard() {
   return (
     <SidebarProvider>
       <AppSidebar />

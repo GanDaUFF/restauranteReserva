@@ -12,6 +12,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { MoreHorizontal, Plus } from "lucide-react"
+import { useEffect, useState } from "react"
+import { getAll } from "@/lib/api/getAll"
 
 // Dados de exemplo das reservas
 const reservations = [
@@ -77,13 +79,14 @@ const reservations = [
   },
 ]
 
+
 const getStatusBadge = (status: string) => {
   switch (status) {
-    case "confirmada":
+    case "CONFIRMADA":
       return <Badge className="bg-green-100 text-green-800 hover:bg-green-100">Confirmada</Badge>
-    case "pendente":
+    case "PENDENTE":
       return <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100">Pendente</Badge>
-    case "cancelada":
+    case "CANCELADA":
       return <Badge className="bg-red-100 text-red-800 hover:bg-red-100">Cancelada</Badge>
     default:
       return <Badge variant="secondary">{status}</Badge>
@@ -91,6 +94,15 @@ const getStatusBadge = (status: string) => {
 }
 
 export function ReservationsTable() {
+
+  const [reservas, setReservas] = useState([])
+
+  useEffect(() => {
+    getAll("listarReservas")
+      .then(setReservas)
+      .catch((err) => alert("Erro ao carregar reservas: " + err.message))
+  }, [])
+
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
@@ -119,14 +131,21 @@ export function ReservationsTable() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {reservations.map((reservation) => (
+            {reservas.map((reservation) => (
               <TableRow key={reservation.id}>
-                <TableCell className="font-medium">{reservation.cliente}</TableCell>
+                <TableCell className="font-medium">{reservation.nomeResponsavel}</TableCell>
                 <TableCell>{reservation.telefone}</TableCell>
-                <TableCell>{new Date(reservation.data).toLocaleDateString("pt-BR")}</TableCell>
-                <TableCell>{reservation.horario}</TableCell>
-                <TableCell>{reservation.mesa}</TableCell>
-                <TableCell>{reservation.pessoas}</TableCell>
+                <TableCell>
+                  {new Date(reservation.dataHora).toLocaleDateString("pt-BR")}
+                </TableCell>
+                <TableCell>
+                  {new Date(reservation.dataHora).toLocaleTimeString("pt-BR", {
+                    hour: "2-digit",
+                    minute: "2-digit"
+                  })}
+                </TableCell>
+                <TableCell>{reservation.numeroMesa}</TableCell>
+                <TableCell>{reservation.quantidade}</TableCell>
                 <TableCell>{getStatusBadge(reservation.status)}</TableCell>
                 <TableCell className="text-right">
                   <DropdownMenu>
