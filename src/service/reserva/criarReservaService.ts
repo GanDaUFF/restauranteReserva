@@ -4,7 +4,8 @@ export const criarReservaService = async (
   dataHora: string,
   numeroMesa: number,
   quantidade: number,
-  nomeResponsavel: string
+  nomeResponsavel: string,
+  telefone: string
 ) => {
   const data = new Date(dataHora);
 
@@ -14,6 +15,6 @@ export const criarReservaService = async (
     throw new Error('Mesa já reservada neste horário.');
   }
 
-  const novaReserva = await criarNovaReserva(data, numeroMesa, quantidade, nomeResponsavel);
+  const novaReserva = await criarNovaReserva(data, numeroMesa, quantidade, nomeResponsavel,telefone);
   return novaReserva;
 };
