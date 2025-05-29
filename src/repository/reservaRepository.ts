@@ -35,7 +35,8 @@ export const criarNovaReserva = async (
   dataHora: Date,
   numeroMesa: number,
   quantidade: number,
-  nomeResponsavel: string
+  nomeResponsavel: string,
+  telefone: string
 ) => {
   return await prisma.reserva.create({
     data: {
@@ -44,6 +45,7 @@ export const criarNovaReserva = async (
       quantidade,
       nomeResponsavel,
       status: 'PENDENTE',
+      telefone
     },
   });
 };

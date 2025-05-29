@@ -31,6 +31,7 @@ enum TipoUsuario {
   quantidade      Int
   nomeResponsavel String
   status          StatusReserva
+  telefone        String?
   confirmadoPor   String? // nome do garçom
   criadoEm        DateTime @default(now())
 }
