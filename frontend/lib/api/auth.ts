@@ -1,7 +1,7 @@
 // lib/api/auth.ts
 export async function login(email: string, senha: string) {
 
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3030"
 
     const response = await fetch(`${baseUrl}/auth/login`, {
       method: 'POST',
