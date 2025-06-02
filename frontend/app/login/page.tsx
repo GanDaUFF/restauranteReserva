@@ -26,7 +26,7 @@ const router = useRouter()
       localStorage.setItem("token", data.token) // ⬅️ Armazena o token no localStorage
       console.log("Token armazenado:", data.token)
       setIsLoggedIn(true)
-      router.push("/dashboard")
+      router.push("/reservas")
     } catch (err: any) {
       alert(err.message || "Erro ao fazer login")
     }

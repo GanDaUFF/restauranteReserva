@@ -27,7 +27,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
 
     if (savedToken && isLoginPage) {
-      router.push("/dashboard")
+      router.push("/reservas")
     }
   }, [pathname, router])
 
