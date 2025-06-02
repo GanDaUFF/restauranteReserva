@@ -15,7 +15,7 @@ export default function TableActions({ table, onAcao }: Props) {
       size="sm"
       variant={variant === "outline" ? "outline" : undefined}
       className={variant === "filled" ? "bg-blue-600 hover:bg-blue-700" : ""}
-      onClick={() => onAcao(table, "ocupar")}
+      onClick={() => onAcao(table, tipo as ActionType)}
 
     >
       {icon} {label}

@@ -36,50 +36,12 @@ export function ReservationsTable() {
   const [abrirAcao, setAbrirAcao] = useState(false)
   const [dialogAberto, setDialogAberto] = useState(false)
   const [reservaEditando, setReservaEditando] = useState<any | null>(null)
-
   const [reservas, setReservas] = useState<any[]>([])
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [formData, setFormData] = useState({
-    cliente: "",
-    telefone: "",
-    email: "",
-    data: "",
-    horario: "",
-    mesa: "",
-    pessoas: "",
-    observacoes: "",
-  })
-
   useEffect(() => {
     getAll("listarReservas")
       .then(setReservas)
       .catch((err) => alert("Erro ao carregar reservas: " + err.message))
   }, [])
-
-  const handleInputChange = (field: string, value: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      [field]: value,
-    }))
-  }
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    console.log("Nova reserva:", formData)
-    alert("Reserva criada com sucesso!")
-
-    setFormData({
-      cliente: "",
-      telefone: "",
-      email: "",
-      data: "",
-      horario: "",
-      mesa: "",
-      pessoas: "",
-      observacoes: "",
-    })
-    setIsDialogOpen(false)
-  }
 
   return (
 

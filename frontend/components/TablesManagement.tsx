@@ -193,7 +193,7 @@ export default function TablesManagement() {
 
       <TableStats tables={tables} />
 
-      <div className="grid grid-cols-1  gap-4">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {tables.map((table) => (
           <TableCard
             key={table.id}
