@@ -20,7 +20,7 @@ type TableStatus = "disponivel" | "ocupada" | "reservada" | "confirmacao_pendent
 
 
 export interface TableAction {
-  type: "ocupar" | "liberar" | "confirmar_reserva" | "cancelar_reserva" | "indisponibilizar"
+  type: "ocupada" | "liberar" | "confirmar_reserva" | "cancelar_reserva" | "indisponibilizar"
   tableId: string
   cliente?: string
 }
@@ -49,11 +49,12 @@ export default function TableDialog({ open, table, actionType, onClose, onConfir
 
   if (!table || !actionType) return null
 
-  const isOcupar = actionType === "ocupar"
-  const isConfirmarReserva = actionType === "confirmar_reserva"
-  const isCancelarReserva = actionType === "cancelar_reserva"
-  const isLiberar = actionType === "liberar"
-  const isIndisponibilizar = actionType === "indisponibilizar"
+ 
+  const isOcupar = actionType === "ocupada"
+  const isLiberar = actionType === "disponivel" && table.status === "ocupada"
+  const isConfirmarReserva = actionType === "ocupada" && table.status === "confirmacao_pendente"
+  const isCancelarReserva = actionType === "disponivel" && table.status === "reservada"
+  const isIndisponibilizar = actionType === "indisponivel"
 
   const handleConfirm = () => {
     onConfirm(table.id, actionType, cliente)
@@ -65,14 +66,14 @@ export default function TableDialog({ open, table, actionType, onClose, onConfir
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            {isOcupar && "Ocupar Mesa"}
+            {isOcupar && "Ocupada Mesa"}
             {isLiberar && "Liberar Mesa"}
             {isConfirmarReserva && "Confirmar Reserva"}
             {isCancelarReserva && "Cancelar Reserva"}
             {isIndisponibilizar && "Indisponibilizar Mesa"}
           </DialogTitle>
           <DialogDescription>
-            Mesa {table.numero} — Capacidade: {table.capacidade} pessoas
+            Mesa {table.numeroMesa} — Capacidade: {table.capacidade} pessoas
           </DialogDescription>
         </DialogHeader>
 

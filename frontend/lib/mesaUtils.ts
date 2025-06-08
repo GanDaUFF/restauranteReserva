@@ -61,6 +61,7 @@ export const canOccupyTable = (table: Table): boolean => {
   return table.status === "disponivel"
 }
 
-export const formatTime = (date: Date) => {
-  return date.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })
+export const formatTime = (date: Date | string) => {
+  const d = typeof date === "string" ? new Date(date) : date
+  return d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })
 }

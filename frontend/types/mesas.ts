@@ -6,10 +6,9 @@ export type TableStatus =
   | "reservada"
   | "confirmacao_pendente"
   | "indisponivel"
-
 export interface Table {
   id: string
-  numero: number
+  numeroMesa: number
   capacidade: number
   status: TableStatus
   cliente?: string
@@ -22,15 +21,15 @@ export interface Table {
   }
   tempoRestante?: number
 }
-export type ActionType = "ocupar" | "liberar" | "confirmar_reserva" | "cancelar_reserva" | "indisponibilizar"
+export type ActionType =
+  | "ocupada"
+  | "disponivel"
+  | "reservada"
+  | "cancelar_reserva"
+  | "indisponivel"
 
 export interface TableAction {
-  type:
-    | "ocupar"
-    | "liberar"
-    | "confirmar_reserva"
-    | "cancelar_reserva"
-    | "indisponibilizar"
-  tableId: string
+  type: ActionType
+  tableId: number
   cliente?: string
 }

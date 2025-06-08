@@ -26,12 +26,12 @@ export default function TableActions({ table, onAcao }: Props) {
     case "disponivel":
       return (
         <>
-          {btn("ocupar", "Ocupar", "filled", <User className="h-4 w-4 mr-1" />)}
+          {btn("ocupada", "Ocupar", "filled", <User className="h-4 w-4 mr-1" />)}
           {btn("indisponibilizar", "Indisponibilizar", "outline")}
         </>
       )
     case "ocupada":
-      return btn("liberar", "Liberar", "outline", <CheckCircle className="h-4 w-4 mr-1" />)
+      return btn("disponivel", "Liberar", "outline", <CheckCircle className="h-4 w-4 mr-1" />)
     case "reservada":
       return btn("cancelar_reserva", "Cancelar Reserva", "outline")
     case "confirmacao_pendente":

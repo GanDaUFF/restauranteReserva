@@ -13,6 +13,7 @@ import { Calendar, Clock, Users, Phone, User, Plus } from "lucide-react"
 import { postData } from "@/lib/api/post"
 import { toast } from "sonner"
 import { patchData } from "@/lib/api/patch"
+import { getAll } from "@/lib/api/getAll"
 
 const mesas = Array.from({ length: 10 }, (_, i) => `Mesa ${i + 1}`)
 const horarios = ["18:00", "18:30", "19:00", "19:30", "20:00", "20:30", "21:00", "21:30", "22:00"]
@@ -30,7 +31,51 @@ interface ReservaDialogProps {
     reservaParaEditar,
     onSuccess
   }: ReservaDialogProps) {
+const [mesasDisponiveis, setMesasDisponiveis] = useState<string[]>([])
   
+    useEffect(() => {
+
+      const fetchMesas = async () => {
+        try {
+          const todasMesas = await getAll("listarMesas")
+          const disponiveis = todasMesas
+            .filter((m: any) => m.status === "disponivel" || (reservaParaEditar && m.numeroMesa === reservaParaEditar.numeroMesa)) // mantém a mesa original em edição
+            .map((m: any) => `Mesa ${m.numeroMesa}`)
+    
+          setMesasDisponiveis(disponiveis)
+        } catch (error) {
+          toast.error("Erro ao carregar mesas disponíveis")
+        }
+      }
+    
+      fetchMesas()
+    
+      if (reservaParaEditar) {
+        const data = new Date(reservaParaEditar.dataHora)
+        setFormData({
+          cliente: reservaParaEditar.nomeResponsavel,
+          telefone: reservaParaEditar.telefone,
+          email: reservaParaEditar.email || "",
+          data: data.toISOString().split("T")[0],
+          horario: data.toTimeString().slice(0, 5),
+          mesa: `Mesa ${reservaParaEditar.numeroMesa}`,
+          pessoas: reservaParaEditar.quantidade.toString(),
+          observacoes: reservaParaEditar.observacoes || "",
+        })
+      } else {
+        setFormData({
+          cliente: "",
+          telefone: "",
+          email: "",
+          data: "",
+          horario: "",
+          mesa: "",
+          pessoas: "",
+          observacoes: "",
+        })
+      }
+    }, [reservaParaEditar])
+    
   const [formData, setFormData] = useState({
     cliente: "",
     telefone: "",
@@ -171,14 +216,16 @@ useEffect(() => {
           </div>
 
           <div className="space-y-2">
-            <Label>Mesa</Label>
-            <Select value={formData.mesa} onValueChange={(value) => handleInputChange("mesa", value)}>
-              <SelectTrigger><SelectValue placeholder="Selecione" /></SelectTrigger>
-              <SelectContent>
-                {mesas.map((m) => <SelectItem key={m} value={m}>{m}</SelectItem>)}
-              </SelectContent>
-            </Select>
-          </div>
+  <Label>Mesa</Label>
+  <Select value={formData.mesa} onValueChange={(value) => handleInputChange("mesa", value)}>
+    <SelectTrigger><SelectValue placeholder="Selecione" /></SelectTrigger>
+    <SelectContent>
+      {mesasDisponiveis.map((m) => (
+        <SelectItem key={m} value={m}>{m}</SelectItem>
+      ))}
+    </SelectContent>
+  </Select>
+</div>
 
           <div className="space-y-2">
             <Label>Observações</Label>

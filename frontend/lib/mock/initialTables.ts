@@ -5,13 +5,13 @@ import { Table } from "@/types/mesas"
 export const initialTables: Table[] = [
   {
     id: "1",
-    numero: 1,
+    numeroMesa: 1,
     capacidade: 2,
     status: "disponivel",
   },
   {
     id: "2",
-    numero: 2,
+    numeroMesa: 2,
     capacidade: 4,
     status: "ocupada",
     cliente: "Maria Santos",
@@ -19,7 +19,7 @@ export const initialTables: Table[] = [
   },
   {
     id: "3",
-    numero: 3,
+    numeroMesa: 3,
     capacidade: 6,
     status: "reservada",
     reserva: {
@@ -31,7 +31,7 @@ export const initialTables: Table[] = [
   },
   {
     id: "4",
-    numero: 4,
+    numeroMesa: 4,
     capacidade: 4,
     status: "confirmacao_pendente",
     reserva: {
@@ -44,19 +44,19 @@ export const initialTables: Table[] = [
   },
   {
     id: "5",
-    numero: 5,
+    numeroMesa: 5,
     capacidade: 8,
     status: "disponivel",
   },
   {
     id: "6",
-    numero: 6,
+    numeroMesa: 6,
     capacidade: 2,
     status: "indisponivel",
   },
   {
     id: "7",
-    numero: 7,
+    numeroMesa: 7,
     capacidade: 4,
     status: "reservada",
     reserva: {
@@ -68,7 +68,7 @@ export const initialTables: Table[] = [
   },
   {
     id: "8",
-    numero: 8,
+    numeroMesa: 8,
     capacidade: 6,
     status: "ocupada",
     cliente: "Carlos Ferreira",

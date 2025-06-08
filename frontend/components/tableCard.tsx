@@ -11,7 +11,6 @@ interface Props {
     canOccupy: boolean
     onAcao: (table: Table, actionType: ActionType) => void
   }
-
 export default function TableCard({ table, onAcao }: Props) {
   const statusInfo = getStatusInfo(table.status)
   const StatusIcon = statusInfo.icon
@@ -23,7 +22,7 @@ export default function TableCard({ table, onAcao }: Props) {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <UtensilsCrossed className="h-5 w-5" />
-            <CardTitle className="text-lg">Mesa {table.numero}</CardTitle>
+            <CardTitle className="text-lg">Mesa {table.numeroMesa}</CardTitle>
           </div>
           <Badge className={`${statusInfo.color} border`}>
             <StatusIcon className="h-3 w-3 mr-1" />
