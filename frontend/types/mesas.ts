@@ -13,11 +13,12 @@ export interface Table {
   status: TableStatus
   cliente?: string
   horaOcupacao?: Date
-  reserva?: {
+  reservas?: {
     cliente: string
-    horario: Date
+    dataHora: Date
     telefone: string
     pessoas: number
+     status: "PENDENTE" | "CANCELADA" | "CONFIRMADA" | "ATIVA"
   }
   tempoRestante?: number
 }

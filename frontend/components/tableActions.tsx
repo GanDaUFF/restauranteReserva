@@ -32,8 +32,14 @@ export default function TableActions({ table, onAcao }: Props) {
       )
     case "ocupada":
       return btn("disponivel", "Liberar", "outline", <CheckCircle className="h-4 w-4 mr-1" />)
-    case "reservada":
-      return btn("cancelar_reserva", "Cancelar Reserva", "outline")
+      case "reservada":
+        return (
+          <>
+            {btn("ocupada", "Confirmar", "filled", <CheckCircle className="h-4 w-4 mr-1" />)}
+            {btn("disponivel", "Cancelar", "outline")}
+          </>
+        )
+      
     case "confirmacao_pendente":
       return (
         <>
