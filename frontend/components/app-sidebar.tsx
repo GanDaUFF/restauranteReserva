@@ -2,7 +2,7 @@
 
 import type * as React from "react"
 import { Calendar, ChevronUp, Home, Settings, UtensilsCrossed, Users, User2, Clock, BarChart3 } from "lucide-react"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import type { LucideIcon } from "lucide-react"
 
 import {
@@ -23,11 +23,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 // Menu items do sistema
 const data = {
   navMain: [
-    {
-      title: "Dashboard",
-      url: "#",
-      icon: Home,
-    },
+    
     {
       title: "Reservas",
       url: "/reservas",
@@ -39,26 +35,14 @@ const data = {
       url: "/mesas",
       icon: UtensilsCrossed,
     },
-    {
-      title: "Clientes",
-      url: "#",
-      icon: Users,
-    },
-    {
-      title: "Horários",
-      url: "#",
-      icon: Clock,
-    },
+  
+    
     {
       title: "Relatórios",
       url: "#",
       icon: BarChart3,
     },
-    {
-      title: "Configurações",
-      url: "#",
-      icon: Settings,
-    },
+   
   ],
 }
 
@@ -77,7 +61,22 @@ interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
 
 export function AppSidebar({ navMain, ...props }: AppSidebarProps) {
   const pathname = usePathname()
+const router = useRouter()
 
+  const nomeCliente = typeof window !== "undefined" ? localStorage.getItem("clienteNome") : null
+  const emailCliente = typeof window !== "undefined" ? localStorage.getItem("clienteEmail") : null
+  const tipoCliente = typeof window !== "undefined" ? localStorage.getItem("clienteTipo") : null
+const itensFiltrados = navMain.filter((item) => {
+  if (tipoCliente === "GERENTE") return true
+  if (tipoCliente === "GARCOM") return ["/reservas", "/mesas"].includes(item.url)
+  if (tipoCliente === "ATENDENTE") return ["/reservas"].includes(item.url)
+  return false // caso tipo seja desconhecido, não mostra nada
+})
+
+  const handleLogout = () => {
+    localStorage.clear()
+    router.push("/login")
+  }
   return (
     <Sidebar variant="inset" {...props}>
       <SidebarHeader>
@@ -102,7 +101,7 @@ export function AppSidebar({ navMain, ...props }: AppSidebarProps) {
           <SidebarGroupLabel>Menu Principal</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {navMain.map((item) => {
+              {itensFiltrados.map((item) => {
                 const isActive = pathname === item.url
 
                 return (
@@ -132,8 +131,8 @@ export function AppSidebar({ navMain, ...props }: AppSidebarProps) {
                 >
                   <User2 className="size-4" />
                   <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-semibold">Administrador</span>
-                    <span className="truncate text-xs">admin@restaurante.com</span>
+                    <span className="truncate font-semibold">{nomeCliente || "Usuário"}</span>
+                    <span className="truncate text-xs">{emailCliente || "sem-email@exemplo.com"}</span>
                   </div>
                   <ChevronUp className="ml-auto size-4" />
                 </SidebarMenuButton>
@@ -150,7 +149,7 @@ export function AppSidebar({ navMain, ...props }: AppSidebarProps) {
                 <DropdownMenuItem>
                   <span>Configurações</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogout}>
                   <span>Sair</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>

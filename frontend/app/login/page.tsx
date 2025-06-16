@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -18,15 +18,19 @@ export default function LoginPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 const router = useRouter()
-
+  useEffect(() => {
+    localStorage.clear() // limpa tudo ao abrir a tela de login
+  }, [])
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
       const data = await login(email, password)
-      localStorage.setItem("token", data.token) // ⬅️ Armazena o token no localStorage
-      console.log("Token armazenado:", data.token)
-      setIsLoggedIn(true)
+      localStorage.setItem("token", data.token) 
+      localStorage.setItem("clienteNome", data.usuario.nome)
+      localStorage.setItem("clienteEmail", data.usuario.email)
+      localStorage.setItem("clienteTipo", data.usuario.tipo)
       router.push("/reservas")
+      setIsLoggedIn(true)
     } catch (err: any) {
       alert(err.message || "Erro ao fazer login")
     }
