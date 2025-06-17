@@ -14,7 +14,7 @@ export default function TableStats({ tables }: TableStatsProps) {
   }
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
       <div className="rounded-xl bg-muted p-4 flex flex-col justify-center">
         <h3 className="text-sm text-gray-600">Total</h3>
         <p className="text-2xl font-bold">{stats.total}</p>
@@ -30,10 +30,6 @@ export default function TableStats({ tables }: TableStatsProps) {
       <div className="rounded-xl bg-yellow-100 p-4 flex flex-col justify-center">
         <h3 className="text-sm text-yellow-800">Reservadas</h3>
         <p className="text-2xl font-bold text-yellow-900">{stats.reservada}</p>
-      </div>
-      <div className="rounded-xl bg-orange-100 p-4 flex flex-col justify-center">
-        <h3 className="text-sm text-orange-800">Confirmação</h3>
-        <p className="text-2xl font-bold text-orange-900">{stats.confirmacao}</p>
       </div>
     </div>
   )

@@ -5,7 +5,7 @@ export const criarUsuario = async (req: Request, res: Response) => {
   const { nome, email, senha, tipo } = req.body;
 
   try {
-    if (!['GERENTE', 'FUNCIONARIO', 'CLIENTE'].includes(tipo)) {
+    if (!['GERENTE', 'GARCOM', 'ATENDENTE'].includes(tipo)) {
       return res.status(400).json({ error: 'Tipo de usuário inválido' });
     }
 

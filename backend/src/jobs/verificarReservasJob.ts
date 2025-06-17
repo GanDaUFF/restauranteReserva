@@ -21,17 +21,31 @@ export const iniciarMonitoramentoReservas = () => {
       },
     })
     
-    for (const reserva of reservasAtivas) {
-      try {
-        await prisma.mesa.update({
-          where: { id: reserva.numeroMesa }, // ou outro campo correto
-          data: { status: "reservada" },
-        })
-       
-      } catch (err) {
-        console.warn(`⚠️ Erro ao atualizar mesa da reserva ${reserva.id}:`, err)
-      }
+   for (const reserva of reservasAtivas) {
+  const mesa = await prisma.mesa.findUnique({
+    where: { id: reserva.numeroMesa },
+  })
+
+  if (!mesa) {
+    console.warn(`⚠️ Mesa ${reserva.numeroMesa} não encontrada para reserva ${reserva.id}`)
+    continue
+  }
+
+  if (mesa.status === "disponivel") {
+    try {
+      await prisma.mesa.update({
+        where: { id: reserva.numeroMesa },
+        data: { status: "reservada" },
+      })
+      console.log(`🟢 Mesa ${reserva.numeroMesa} marcada como reservada por reserva ativa ${reserva.id}`)
+    } catch (err) {
+      console.warn(`⚠️ Erro ao atualizar mesa ${reserva.numeroMesa} da reserva ${reserva.id}:`, err)
     }
+  } else {
+    console.log(`⏭️ Mesa ${reserva.numeroMesa} está com status ${mesa.status}, não será alterada pela reserva ${reserva.id}`)
+  }
+}
+
     
    for (const reserva of reservasProximas) {
   const mesa = await prisma.mesa.findUnique({
