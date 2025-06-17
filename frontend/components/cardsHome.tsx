@@ -5,7 +5,7 @@ import { getAll } from "@/lib/api/getAll"
 
 type StatusContagem = {
   total: number
-  confirmadas: number
+  concluidas: number
   pendentes: number
   canceladas: number
 }
@@ -13,7 +13,7 @@ type StatusContagem = {
 export default function CardsHome() {
   const [contagem, setContagem] = useState<StatusContagem>({
     total: 0,
-    confirmadas: 0,
+    concluidas: 0,
     pendentes: 0,
     canceladas: 0,
   })
@@ -23,7 +23,7 @@ export default function CardsHome() {
       .then((res) => {
         const contagemAtualizada: StatusContagem = {
           total: res.length,
-          confirmadas: res.filter((r) => r.status === "CONFIRMADA").length,
+          concluidas: res.filter((r) => r.status === "CONCLUIDA").length,
           pendentes: res.filter((r) => r.status === "PENDENTE").length,
           canceladas: res.filter((r) => r.status === "CANCELADA").length,
         }
@@ -39,8 +39,8 @@ export default function CardsHome() {
         <p className="text-2xl font-bold text-orange-900">{contagem.total}</p>
       </div>
       <div className="aspect-video rounded-xl bg-gradient-to-br from-green-100 to-green-200 p-4 flex flex-col justify-center">
-        <h3 className="font-semibold text-green-800">Confirmadas</h3>
-        <p className="text-2xl font-bold text-green-900">{contagem.confirmadas}</p>
+        <h3 className="font-semibold text-green-800">Concluidas</h3>
+        <p className="text-2xl font-bold text-green-900">{contagem.concluidas}</p>
       </div>
       <div className="aspect-video rounded-xl bg-gradient-to-br from-yellow-100 to-yellow-200 p-4 flex flex-col justify-center">
         <h3 className="font-semibold text-yellow-800">Pendentes</h3>
