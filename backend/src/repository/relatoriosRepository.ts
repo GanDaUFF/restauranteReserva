@@ -42,7 +42,7 @@ export const buscarReservasPorMesa = async (numeroMesa: number, dataInicio?: Dat
 
 export const buscarReservasPorGarcom = async (dataInicio?: Date, dataFim?: Date) => {
   const where: any = {
-    status: "CONFIRMADA",
+    status: "CONCLUIDA",
     confirmadoPor: {
       not: null,
     },

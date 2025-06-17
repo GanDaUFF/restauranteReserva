@@ -34,6 +34,7 @@ model Reserva {
   quantidade      Int
   nomeResponsavel String
   status          StatusReserva
+  observacoes     String?
   telefone        String?
   confirmadoPor   String?
   criadoEm        DateTime   @default(now())

@@ -48,7 +48,6 @@ const [mesasDisponiveis, setMesasDisponiveis] = useState<string[]>([])
         try {
           const todasMesas = await getAll("listarMesas")
           const disponiveis = todasMesas
-            .filter((m: any) => m.status === "disponivel" || (reservaParaEditar && m.numeroMesa === reservaParaEditar.numeroMesa)) // mantém a mesa original em edição
             .map((m: any) => `Mesa ${m.numeroMesa}`)
     
           setMesasDisponiveis(disponiveis)
@@ -64,7 +63,6 @@ const [mesasDisponiveis, setMesasDisponiveis] = useState<string[]>([])
         setFormData({
           cliente: reservaParaEditar.nomeResponsavel,
           telefone: reservaParaEditar.telefone,
-          email: reservaParaEditar.email || "",
           data: data.toISOString().split("T")[0],
           horario: data.toTimeString().slice(0, 5),
           mesa: `Mesa ${reservaParaEditar.numeroMesa}`,
@@ -75,7 +73,6 @@ const [mesasDisponiveis, setMesasDisponiveis] = useState<string[]>([])
         setFormData({
           cliente: "",
           telefone: "",
-          email: "",
           data: "",
           horario: "",
           mesa: "",
@@ -88,7 +85,6 @@ const [mesasDisponiveis, setMesasDisponiveis] = useState<string[]>([])
   const [formData, setFormData] = useState({
     cliente: "",
     telefone: "",
-    email: "",
     data: "",
     horario: "",
     mesa: "",
@@ -103,7 +99,6 @@ useEffect(() => {
     setFormData({
       cliente: reservaParaEditar.nomeResponsavel,
       telefone: reservaParaEditar.telefone,
-      email: reservaParaEditar.email || "",
       data: data.toISOString().split("T")[0],
       horario: data.toTimeString().slice(0, 5),
       mesa: `Mesa ${reservaParaEditar.numeroMesa}`,
@@ -114,7 +109,6 @@ useEffect(() => {
     setFormData({
       cliente: "",
       telefone: "",
-      email: "",
       data: "",
       horario: "",
       mesa: "",
@@ -138,7 +132,6 @@ useEffect(() => {
       const body = {
         nomeResponsavel: formData.cliente,
         telefone: formData.telefone,
-        email: formData.email,
         dataHora: dataHora.toISOString(),
         numeroMesa: Number(formData.mesa.replace("Mesa ", "")) || null,
         quantidade: Number(formData.pessoas),
@@ -146,7 +139,7 @@ useEffect(() => {
       }
   
       if (reservaParaEditar) {
-        await patchData(`reserva/${reservaParaEditar.id}`, body)
+        await patchData(`atualizarReserva/${reservaParaEditar.id}`, body)
         toast.success("Reserva atualizada com sucesso!")
       } else {
         await postData("criarReserva", body)
@@ -191,8 +184,6 @@ useEffect(() => {
           </div>
 
           <div className="space-y-2">
-            <Label>Email</Label>
-            <Input type="email" value={formData.email} onChange={(e) => handleInputChange("email", e.target.value)} />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

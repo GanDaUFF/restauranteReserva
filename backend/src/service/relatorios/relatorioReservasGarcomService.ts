@@ -2,7 +2,7 @@ import { buscarReservasPorGarcom } from "../../repository/relatoriosRepository"
 
 export const relatorioReservasGarcomService = async (dataInicio?: Date, dataFim?: Date) => {
   const reservas = await buscarReservasPorGarcom(dataInicio, dataFim)
-
+console.log(reservas)
   // Agrupar por garçom
   const reservasPorGarcom = reservas.reduce(
     (acc, reserva) => {

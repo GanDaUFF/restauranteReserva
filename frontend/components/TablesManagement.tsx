@@ -27,10 +27,14 @@
     const handleAction = (table: Table, actionType: ActionType) => {
       setDialogData({ open: true, table, actionType })
     }
+  const nomeCliente = typeof window !== "undefined" ? localStorage.getItem("clienteNome")?.split(' ')[0] : null
 
     const handleConfirmAction = async (tableId: string, actionType: ActionType, cliente?: string) => {
       try {
-        await patchData(`atualizarMesa/${tableId}`, {
+        const query = actionType === 'disponivel'
+  ? `?confirmadoPor=${nomeCliente}`
+  : '';
+        await patchData(`atualizarMesa/${tableId}${query}`, {
           status: actionType,
           cliente: actionType === "ocupada" ? cliente : null,
           horaOcupacao: actionType === "ocupada" || actionType === "reservada"

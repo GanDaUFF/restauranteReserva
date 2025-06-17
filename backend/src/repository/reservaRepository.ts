@@ -5,7 +5,6 @@ export const encontrarReservaExistente = async (dataHora: Date, numeroMesa: numb
     where: {
       dataHora,
       numeroMesa,
-      status: 'PENDENTE',
     },
   });
 };
@@ -24,10 +23,13 @@ export const listarTodasReservas = async () => {
   };
 
   export const atualizarReservaPorId = async (id: number, dadosAtualizados: any) => {
-    return await prisma.reserva.update({
+    const teste = await prisma.reserva.update({
       where: { id },
       data: dadosAtualizados,
     });
+
+    return teste
+
   };
 
   
@@ -65,7 +67,7 @@ export const buscarReservasProximas = async (agora: Date, intervaloMinutos: numb
     include: { mesa: true },
   })
 }
-export const concluirReservaAtivaPorMesa = async (numeroMesa: number) => {
+export const concluirReservaAtivaPorMesa = async (numeroMesa: number,confirmadoPor: string) => {
   return await prisma.reserva.updateMany({
     where: {
       numeroMesa,
@@ -73,6 +75,7 @@ export const concluirReservaAtivaPorMesa = async (numeroMesa: number) => {
     },
     data: {
       status: "CONCLUIDA",
+      confirmadoPor : confirmadoPor
     },
   })
 }

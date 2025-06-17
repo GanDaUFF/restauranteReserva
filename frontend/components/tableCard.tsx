@@ -46,14 +46,20 @@ export default function TableCard({ table, onAcao }: Props) {
           </div>
         )}
 
-        {(table.status === "reservada" || table.status === "confirmacao_pendente") && table.reserva && (
-          <div className="space-y-1">
-            <p className="text-sm font-medium">Reserva: {table.reserva.cliente}</p>
-            <p className="text-xs text-gray-500">Horário: {formatTime(table.reserva.horario)}</p>
-            <p className="text-xs text-gray-500">Pessoas: {table.reserva.pessoas}</p>
-            <p className="text-xs text-gray-500">Tel: {table.reserva.telefone}</p>
-          </div>
-        )}
+        {(table.status === "reservada" || table.status === "confirmacao_pendente") && Array.isArray(table.reservas) && (
+  (() => {
+    const reservaAtiva = table.reservas.find(r => r.status === "ATIVA")
+    if (!reservaAtiva) return null
+    return (
+      <div className="space-y-1">
+        <p className="text-sm font-medium">Reserva: {reservaAtiva.nomeResponsavel}</p>
+        <p className="text-xs text-gray-500">Pessoas: {reservaAtiva.quantidade}</p>
+        <p className="text-xs text-gray-500">Tel: {reservaAtiva.telefone}</p>
+      </div>
+    )
+  })()
+)}
+
 
         {table.status === "confirmacao_pendente" && table.tempoRestante && (
           <div className="flex items-center gap-1 text-orange-600">
@@ -62,16 +68,7 @@ export default function TableCard({ table, onAcao }: Props) {
           </div>
         )}
 
-        {!canOccupy && table.status === "reservada" && table.reserva && (
-          <div className="text-xs text-amber-600 bg-amber-50 p-2 rounded">
-            ⚠️ Reservada para os próximos{" "}
-            {Math.max(
-              Math.ceil((table.reserva.horario.getTime() - Date.now()) / (1000 * 60)),
-              0
-            )}{" "}
-            min
-          </div>
-        )}
+       
 
         <div className="flex flex-wrap gap-2 pt-2">
           <TableActions table={table} onAcao={onAcao} />
