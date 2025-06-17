@@ -1,0 +1,68 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id        Int          @id @default(autoincrement())
+  nome      String
+  email     String       @unique
+  senha     String
+  tipo      TipoUsuario
+  criadoEm  DateTime     @default(now())
+}
+
+
+model Mesa {
+  id           Int       @id @default(autoincrement())
+  numeroMesa   Int       @unique
+  capacidade   Int
+  cliente      String?
+  status       StatusMesa
+  horaOcupacao DateTime?
+
+  reservas     Reserva[]  // Uma mesa pode ter várias reservas
+}
+
+model Reserva {
+  id              Int       @id @default(autoincrement())
+  dataHora        DateTime
+  quantidade      Int
+  nomeResponsavel String
+  status          StatusReserva
+  observacoes     String?
+  telefone        String?
+  confirmadoPor   String?
+  criadoEm        DateTime   @default(now())
+
+  numeroMesa      Int       // FK para mesa
+  mesa            Mesa       @relation(fields: [numeroMesa], references: [id])
+}
+
+
+
+enum StatusMesa {
+  disponivel
+  ocupada
+  reservada
+  confirmacao_pendente
+  indisponivel
+}
+
+enum StatusReserva {
+  PENDENTE
+  CANCELADA
+  CONFIRMADA
+  ATIVA 
+  CONCLUIDA
+}
+
+enum TipoUsuario {
+  GERENTE
+  GARCOM  
+  ATENDENTE
+}
