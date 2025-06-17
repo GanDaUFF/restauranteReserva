@@ -33,23 +33,31 @@ export const iniciarMonitoramentoReservas = () => {
       }
     }
     
-    for (const reserva of reservasProximas) {
-      const [reservaAtualizada, mesaAtualizada] = await prisma.$transaction([
-        prisma.reserva.update({
-          where: { id: reserva.id },
-          data: { status: "ATIVA" },
-        }),
-        prisma.mesa.update({
-          where: { id: reserva.numeroMesa },
-          data: { status: "reservada" },
-        })
-      ])
-      console.log("✅ Reserva atualizada:", reservaAtualizada)
-      console.log("✅ Mesa atualizada:", mesaAtualizada)
-      console.log(`🚀 Reserva ${reserva.id} ativada e mesa ${reserva.numeroMesa} marcada como reservada.`)
-    
-      ioServer.emit("reservaAtivada", { numeroMesa: reserva.numeroMesa })
-    }
+   for (const reserva of reservasProximas) {
+  const mesa = await prisma.mesa.findUnique({
+    where: { id: reserva.numeroMesa },
+  })
+
+  if (mesa?.status !== "disponivel") {
+    console.log(`❌ Reserva ${reserva.id} não ativada — mesa ${reserva.numeroMesa} está ocupada.`)
+    continue
+  }
+
+  const [reservaAtualizada, mesaAtualizada] = await prisma.$transaction([
+    prisma.reserva.update({
+      where: { id: reserva.id },
+      data: { status: "ATIVA" },
+    }),
+    prisma.mesa.update({
+      where: { id: reserva.numeroMesa },
+      data: { status: "reservada" },
+    }),
+  ])
+
+  console.log(`🚀 Reserva ${reserva.id} ativada e mesa ${reserva.numeroMesa} marcada como reservada.`)
+  ioServer.emit("reservaAtivada", { numeroMesa: reserva.numeroMesa })
+}
+
     const reservasExpiradas = await prisma.reserva.findMany({
       where: {
         status: "ATIVA",
