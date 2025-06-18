@@ -72,10 +72,11 @@ Instalação e Execução
 
 4. Configurar variáveis de ambiente:
    Criar um arquivo .env em backend/ com:
+   
    DATABASE_URL="file:./dev.db"
   
 
-5. Executar as migrations:
+6. Executar as migrations:
   - npx prisma generate 
   - npx prisma migrate dev --name init 
 
